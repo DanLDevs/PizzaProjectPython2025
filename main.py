@@ -1,5 +1,8 @@
 print('starting main.py...')
 
+maximum_ingredients = 8 # Maximum number of ingredients allowed
+number_of_ingredients = 0 # Initialize number of ingredients to 0
+
 user_pizza_dict = [] # Empty list to store chosen toppings and serving sizes
 
 ingredients_dict = {
@@ -42,9 +45,13 @@ continue_ingredients = True
 
 # Function to ask user if they want to add another ingredient
 def new_user_ingredient():
+    print()
+    print('*' * 50)
+    print()
     print('Would you like to add another ingredient?')
     print()
     print(f"a. continue\tb. finished")
+    print()
     print('Enter choice:', end= ' ')
     user_choice = input().strip().lower()  # Add strip() and lower() to clean the input
     
@@ -68,6 +75,8 @@ def print_current_ingredients():
     for ingredient_key, amount in user_pizza_dict:
         ingredient_name = ingredients_dict[ingredient_key]
         print(f"{ingredient_name:<30} {amount:>10}")
+    print()
+    print('* Pizza is to be appropriately cooked until crust is cooked and toppings are warmed *')
     print()
     print('*' * 50)
 
@@ -101,6 +110,7 @@ while continue_ingredients:
     # Get user serving size letter choice
     print('Enter choice:', end=' ')
     serving_choice = input().strip()
+    print() # Whitespace
 
     # Loop until the user enters a valid serving size letter
     while serving_choice not in serving_size[ingredients_dict[user_choice]]:
@@ -119,8 +129,13 @@ while continue_ingredients:
     # Add to user_pizza_dict as a tuple (topping, measure)
     user_pizza_dict.append((user_choice, serving_measure))
 
-    # Print whitespace
-    print('*' * 50)
-    continue_ingredients = new_user_ingredient()
+    # Increment number of ingredients
+    number_of_ingredients += 1
+
+    # Check if maximum number of ingredients has been reached
+    if number_of_ingredients >= maximum_ingredients:
+        continue_ingredients = False
+    else:
+        continue_ingredients = new_user_ingredient()
 
 print_current_ingredients()
