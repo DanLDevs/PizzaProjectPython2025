@@ -1,3 +1,7 @@
+print('starting main.py...')
+
+user_pizza_dict = [] # Empty list to store chosen toppings and serving sizes
+
 ingredients_dict = {
     'a': 'pizza cheese',
     'b': 'diced onion',
@@ -33,20 +37,90 @@ serving_size = {
 keys = list(ingredients_dict.keys())
 values = list(ingredients_dict.values())
 
-print('Please choose one ingredient option:\n')
+# Initialize continue_ingredients to True
+continue_ingredients = True
 
-# Iterate and print the keys and values in a 4x3 grid
-for i in range(0, len(keys), 3):
-    print(f"{keys[i]}. {values[i]:<20} {keys[i+1]}. {values[i+1]:<20} {keys[i+2]}. {values[i+2]:<20}")
+# Function to ask user if they want to add another ingredient
+def new_user_ingredient():
+    print('Would you like to add another ingredient?')
+    print()
+    print(f"a. continue\tb. finished")
+    print('Enter choice:', end= ' ')
+    user_choice = input().strip().lower()  # Add strip() and lower() to clean the input
     
-print() # Whitespace
-print('Enter choice:', end=' ')
-user_choice = input()
+    if user_choice == 'a':
+        return True
+    elif user_choice == 'b':
+        return False
+    else:
+        print("Invalid choice. Please enter 'a' to continue or 'b' to finish.")
+        # Call the function again (recursion) to get a valid input
+        return new_user_ingredient()
+    
+# Function to print the current pizza ingredients
+def print_current_ingredients():
+    print()
+    print('*' * 50)
+    print()
+    print('* Your pizza recipe *')
+    print()
 
-if user_choice in ingredients_dict.keys():
+    for ingredient_key, amount in user_pizza_dict:
+        ingredient_name = ingredients_dict[ingredient_key]
+        print(f"{ingredient_name:<30} {amount:>10}")
+    print()
+    print('*' * 50)
+
+# Main loop to get user ingredient choices
+while continue_ingredients:
+    print('Please choose one ingredient option:\n')
+
+    # Iterate and print the keys and values in a 4x3 grid
+    for i in range(0, len(keys), 3):
+        print(f"{keys[i]}. {values[i]:<20} {keys[i+1]}. {values[i+1]:<20} {keys[i+2]}. {values[i+2]:<20}")
+        
+    print() # Whitespace
+    print('Enter choice:', end=' ')
+    user_choice = input().strip().lower()  # Ensure input is cleaned and lowercase
+
+    # Check if the user choice is valid
+    while user_choice not in ingredients_dict.keys():
+        print('Invalid choice. Please enter a valid ingredient letter from the list.')
+        print('Reprinting the list of ingredients:\n')
+        for i in range(0, len(keys), 3):
+            print(f"{keys[i]}. {values[i]:<20} {keys[i+1]}. {values[i+1]:<20} {keys[i+2]}. {values[i+2]:<20}")
+        print() # Whitespace
+        print('Enter choice:', end=' ')
+        user_choice = input().strip().lower()
+
     print('Please choose one amount:')
     print()
     # Print the serving sizes for the chosen ingredient
     print("\t".join([f"{letter}. {size}" for letter, size in serving_size[ingredients_dict[user_choice]].items()]))
-else:
-    print('Invalid choice')
+    
+    # Get user serving size letter choice
+    print('Enter choice:', end=' ')
+    serving_choice = input().strip()
+
+    # Loop until the user enters a valid serving size letter
+    while serving_choice not in serving_size[ingredients_dict[user_choice]]:
+        print('Invalid choice. Please try again.')
+        print('Please choose one amount:')
+        print("\t".join([f"{letter}. {size}" for letter, size in serving_size[ingredients_dict[user_choice]].items()]))
+        print('Enter choice:', end=' ')
+        serving_choice = input().strip()
+
+    # Get the corresponding serving size measurement
+    serving_measure = serving_size[ingredients_dict[user_choice]][serving_choice]
+    
+    # Output topping and serving size user chose
+    print(f"* You chose: {user_choice:>5}. {ingredients_dict[user_choice]} = {serving_measure} *")
+
+    # Add to user_pizza_dict as a tuple (topping, measure)
+    user_pizza_dict.append((user_choice, serving_measure))
+
+    # Print whitespace
+    print('*' * 50)
+    continue_ingredients = new_user_ingredient()
+
+print_current_ingredients()
