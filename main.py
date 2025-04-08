@@ -3,7 +3,7 @@ print('starting main.py...')
 maximum_ingredients = 8 # Maximum number of ingredients allowed
 number_of_ingredients = 0 # Initialize number of ingredients to 0
 
-user_pizza_dict = [] # Empty list to store chosen toppings and serving sizes
+user_pizza_dict = {}  # Empty dictionary to store chosen toppings and serving sizes
 
 ingredients_dict = {
     'a': 'pizza cheese',
@@ -72,7 +72,7 @@ def print_current_ingredients():
     print('* Your pizza recipe *')
     print()
 
-    for ingredient_key, amount in user_pizza_dict:
+    for ingredient_key, amount in user_pizza_dict.items():
         ingredient_name = ingredients_dict[ingredient_key]
         print(f"{ingredient_name:<30} {amount:>10}")
     print()
@@ -102,6 +102,12 @@ while continue_ingredients:
         print('Enter choice:', end=' ')
         user_choice = input().strip().lower()
 
+    # Check if user has already added this ingredient
+    if user_choice in user_pizza_dict:
+        print(f"You've already added {ingredients_dict[user_choice]} to your pizza.")
+        print("Please select a different ingredient.")
+        continue  # Skip to the next iteration of the loop
+
     print('Please choose one amount:')
     print()
     # Print the serving sizes for the chosen ingredient
@@ -126,8 +132,8 @@ while continue_ingredients:
     # Output topping and serving size user chose
     print(f"* You chose: {user_choice:>5}. {ingredients_dict[user_choice]} = {serving_measure} *")
 
-    # Add to user_pizza_dict as a tuple (topping, measure)
-    user_pizza_dict.append((user_choice, serving_measure))
+    # Add to user_pizza_dict as a key-value pair
+    user_pizza_dict[user_choice] = serving_measure
 
     # Increment number of ingredients
     number_of_ingredients += 1
