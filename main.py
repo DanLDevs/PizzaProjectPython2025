@@ -43,6 +43,55 @@ values = list(ingredients_dict.values())
 # Initialize continue_ingredients to True
 continue_ingredients = True
 
+# Define sauce options
+sauce_options = {'a': "Red Sauce", 'b': "No Sauce"}
+
+# Define sauce serving sizes
+sauce_serving_sizes = {'a': "1/4 cup", 'b': "1/2 cup"}
+
+# Ask user to select a sauce
+print()
+print('*' * 50)
+print()
+print("Select a pizza sauce:")
+# Format sauce options on one line with tabs between options
+print("\t".join([f"{letter}. {sauce}" for letter, sauce in sauce_options.items()]))
+
+# Get user sauce choice
+sauce_letter = ""
+while sauce_letter not in sauce_options:
+    sauce_letter = input("Enter choice: ").strip().lower()
+    if sauce_letter not in sauce_options:
+        print("Invalid choice. Please select 'a' or 'b'.")
+
+# Store the sauce choice
+selected_sauce = sauce_options[sauce_letter]
+print(f"You selected {selected_sauce}.")
+
+# Ask for sauce amount only if Red Sauce was selected
+if sauce_letter == 'a':  # Red Sauce was selected
+    print()
+    print("Select sauce amount:")
+    # Format serving sizes on one line with tabs between options
+    print("\t".join([f"{letter}. {amount}" for letter, amount in sauce_serving_sizes.items()]))
+    
+    # Get sauce amount choice
+    sauce_amount_letter = ""
+    while sauce_amount_letter not in sauce_serving_sizes:
+        sauce_amount_letter = input("Enter choice: ").strip().lower()
+        if sauce_amount_letter not in sauce_serving_sizes:
+            print("Invalid choice. Please select 'a' or 'b'.")
+    
+    # Store sauce with amount
+    sauce_amount = sauce_serving_sizes[sauce_amount_letter]
+    user_pizza_dict['sauce'] = f"{selected_sauce} ({sauce_amount})"
+    print(f"You selected {selected_sauce} = {sauce_amount}")
+else:
+    # No Sauce selected
+    user_pizza_dict['sauce'] = selected_sauce
+
+print()
+
 # Function to ask user if they want to add another ingredient
 def new_user_ingredient():
     print()
@@ -73,7 +122,7 @@ def print_current_ingredients():
     print()
 
     for ingredient_key, amount in user_pizza_dict.items():
-        ingredient_name = ingredients_dict[ingredient_key]
+        ingredient_name = ingredients_dict.get(ingredient_key, ingredient_key)
         print(f"{ingredient_name:<30} {amount:>10}")
     print()
     print('* Pizza is to be appropriately cooked until crust is cooked and toppings are warmed *')
