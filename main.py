@@ -43,6 +43,32 @@ values = list(ingredients_dict.values())
 # Initialize continue_ingredients to True
 continue_ingredients = True
 
+# First ask user to select a crust type
+print()
+print('*' * 50)
+print()
+print('Please choose one crust option:')
+print()
+
+# Define crust options
+crust_options = {'a': 'regular crust', 'b': 'gluten free crust'}
+
+# Format crust options on one line with tabs between options
+print("\t".join([f"{letter}. {crust}" for letter, crust in crust_options.items()]))
+
+# Get user crust choice
+crust_letter = ""
+while crust_letter not in crust_options:
+    crust_letter = input("Enter choice: ").strip().lower()
+    if crust_letter not in crust_options:
+        print("Invalid choice. Please select 'a' or 'b'.")
+
+# Store the crust choice
+selected_crust = crust_options[crust_letter]
+user_pizza_dict['crust'] = selected_crust
+print(f"* You chose: {selected_crust} *")
+print('*' * 50) # Removed extra blank line
+
 # Define sauce options
 sauce_options = {'a': "Red Sauce", 'b': "No Sauce"}
 
@@ -50,8 +76,6 @@ sauce_options = {'a': "Red Sauce", 'b': "No Sauce"}
 sauce_serving_sizes = {'a': "1/4 cup", 'b': "1/2 cup"}
 
 # Ask user to select a sauce
-print()
-print('*' * 50)
 print()
 print("Select a pizza sauce:")
 # Format sauce options on one line with tabs between options
