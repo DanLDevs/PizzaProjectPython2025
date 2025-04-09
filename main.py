@@ -1,4 +1,4 @@
-print('starting main.py...')
+print("Welcome to Group 6's Pizza Builder!")
 
 maximum_ingredients = 8 # Maximum number of ingredients allowed
 number_of_ingredients = 0 # Initialize number of ingredients to 0
@@ -67,7 +67,10 @@ while crust_letter not in crust_options:
 selected_crust = crust_options[crust_letter]
 user_pizza_dict['crust'] = selected_crust
 print(f"* You chose: {selected_crust} *")
-print('*' * 50) # Removed extra blank line
+print('*' * 50) 
+
+# Increment number of ingredients for crust
+number_of_ingredients += 1
 
 # Define sauce options
 sauce_options = {'a': "Red Sauce", 'b': "No Sauce"}
@@ -113,6 +116,9 @@ if sauce_letter == 'a':  # Red Sauce was selected
 else:
     # No Sauce selected
     user_pizza_dict['sauce'] = selected_sauce
+
+# Increment number of ingredients for sauce
+number_of_ingredients += 1
 
 print()
 
@@ -210,6 +216,8 @@ while continue_ingredients:
 
     # Increment number of ingredients
     number_of_ingredients += 1
+
+    print(f"You've selected {number_of_ingredients} of {maximum_ingredients} maximum ingredients.")
 
     # Check if maximum number of ingredients has been reached
     if number_of_ingredients >= maximum_ingredients:
